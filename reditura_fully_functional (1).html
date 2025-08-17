@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reditura - NHS Continuing Healthcare Funding Experts</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            line-height: 1.6;
+        }
+        .nhs-blue { background-color: #005EB8; }
+        .nhs-blue-text { color: #005EB8; }
+        .nhs-yellow { background-color: #FFD320; }
+        .service-box {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .service-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .service-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .service-content.active {
+            max-height: 200px;
+        }
+        .faq-item {
+            transition: all 0.3s ease;
+        }
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .faq-content.active {
+            max-height: 300px;
+        }
+        .ornate-logo {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #005EB8 0%, #0072CE 100%);
+        }
+        .btn-primary {
+            background: #FFD320;
+            color: #003087;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: #F0C814;
+            transform: translateY(-2px);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .counter {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #FFD320;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <div class="ornate-logo text-2xl font-bold nhs-blue-text">REDITURA</div>
+                    <span class="ml-2 text-sm text-gray-600">Specialists in Continuing Healthcare Funding</span>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-gray-700 hover:text-blue-600 transition">Home</a>
+                    <a href="#services" class="text-gray-700 hover:text-blue-600 transition">Services</a>
+                    <a href="#about" class="text-gray-700 hover:text-blue-600 transition">About</a>
+                    <a href="#contact" class="text-gray-700 hover:text-blue-600 transition">Contact</a>
+                </nav>
+                <button onclick="openContactModal()" class="btn-primary px-6 py-2 rounded-lg font-semibold">
+                    Contact Us
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="gradient-bg text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-5xl font-bold mb-6">Bringing Every Penny Home</h1>
+                <p class="text-xl mb-8 max-w-3xl mx-auto">We are established leading experts in NHS Continuing Healthcare funding, helping families reclaim millions in care fees through professional advocacy and expert guidance.</p>
+                <button onclick="openAssessmentModal()" class="btn-primary px-8 py-4 rounded-lg text-lg font-semibold mr-4">
+                    Start Your Free Assessment
+                </button>
+                <p class="mt-4 text-sm opacity-90">This month we've reclaimed <span class="counter" id="monthlyCounter">£247,832</span> for families like yours</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Free Initial Advice -->
+    <section class="py-16 bg-red-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-lg shadow-lg p-8 flex items-center justify-between">
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Free Initial Advice</h3>
+                    <p class="text-gray-600">We will give you an honest assessment of whether we believe you'll be eligible for NHS funding.</p>
+                </div>
+                <button onclick="openAssessmentModal()" class="btn-primary px-6 py-3 rounded-lg font-semibold">
+                    Get Your Free Assessment <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Expertise -->
+    <section id="services" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Our Expertise</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Our team can assist you every step of the way through the NHS Continuing Healthcare process.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Service Box 1 -->
+                <div class="service-box bg-white border rounded-lg p-6 shadow-lg" onclick="toggleService('service1')">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-phone-alt text-blue-600 text-2xl mr-4"></i>
+                        <h3 class="text-lg font-semibold">Nurse Advice Line</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Need guidance in the right direction? Our experienced Nurse Assessors can provide expert initial advice on eligibility.</p>
+                    <div class="service-content" id="service1">
+                        <div class="bg-blue-50 p-4 rounded mt-4">
+                            <p class="text-sm text-blue-800">Confused by CHC jargon? Our former NHS assessors speak your language and cut through the complexity. Get immediate expert guidance from nurses who've conducted thousands of assessments.</p>
+                        </div>
+                    </div>
+                    <button class="text-blue-600 font-semibold mt-2">Learn More <i class="fas fa-chevron-down ml-1"></i></button>
+                </div>
+
+                <!-- Service Box 2 -->
+                <div class="service-box bg-white border rounded-lg p-6 shadow-lg" onclick="toggleService('service2')">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-clipboard-check text-blue-600 text-2xl mr-4"></i>
+                        <h3 class="text-lg font-semibold">Checklist Support</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">At the start of the CHC process? Our Nurse Assessors can guide you through the screening Checklist.</p>
+                    <div class="service-content" id="service2">
+                        <div class="bg-blue-50 p-4 rounded mt-4">
+                            <p class="text-sm text-blue-800">Don't navigate the 57-page CHC checklist alone. Our experts guide you to the right answers and ensure nothing important is missed in this crucial first step.</p>
+                        </div>
+                    </div>
+                    <button class="text-blue-600 font-semibold mt-2">Learn More <i class="fas fa-chevron-down ml-1"></i></button>
+                </div>
+
+                <!-- Service Box 3 -->
+                <div class="service-box bg-white border rounded-lg p-6 shadow-lg" onclick="toggleService('service3')">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-users text-blue-600 text-2xl mr-4"></i>
+                        <h3 class="text-lg font-semibold">MDT Advocacy</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Looking for support at an MDT? Our qualified CHC Nurse Assessors can provide expert advocacy at short notice.</p>
+                    <div class="service-content" id="service3">
+                        <div class="bg-blue-50 p-4 rounded mt-4">
+                            <p class="text-sm text-blue-800">Facing an assessment? Our qualified nurses ensure your case is presented with clinical authority. We speak the same language as the assessment team and fight for your rights.</p>
+                        </div>
+                    </div>
+                    <button class="text-blue-600 font-semibold mt-2">Learn More <i class="fas fa-chevron-down ml-1"></i></button>
+                </div>
+
+                <!-- Service Box 4 -->
+                <div class="service-box bg-white border rounded-lg p-6 shadow-lg" onclick="toggleService('service4')">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-file-alt text-blue-600 text-2xl mr-4"></i>
+                        <h3 class="text-lg font-semibold">Review Advocacy</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Notified of an FNC or CHC Review? We can support you through the process.</p>
+                    <div class="service-content" id="service4">
+                        <div class="bg-blue-50 p-4 rounded mt-4">
+                            <p class="text-sm text-blue-800">Review meeting looming? We'll attend with you and fight for the decision you deserve. Our experts ensure reviews are thorough and fair.</p>
+                        </div>
+                    </div>
+                    <button class="text-blue-600 font-semibold mt-2">Learn More <i class="fas fa-chevron-down ml-1"></i></button>
+                </div>
+
+                <!-- Service Box 5 -->
+                <div class="service-box bg-white border rounded-lg p-6 shadow-lg" onclick="toggleService('service5')">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-balance-scale text-blue-600 text-2xl mr-4"></i>
+                        <h3 class="text-lg font-semibold">Appeal Advice</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Turned down for CHC? We will review the Decision Support Tool and give you our expert view on the merits of appeal.</p>
+                    <div class="service-content" id="service5">
+                        <div class="bg-blue-50 p-4 rounded mt-4">
+                            <p class="text-sm text-blue-800">Turned down unfairly? Our appeals specialists have overturned hundreds of wrong decisions. We'll review your case and build a winning appeal strategy.</p>
+                        </div>
+                    </div>
+                    <button class="text-blue-600 font-semibold mt-2">Learn More <i class="fas fa-chevron-down ml-1"></i></button>
+                </div>
+
+                <!-- Service Box 6 -->
+                <div class="service-box bg-white border rounded-lg p-6 shadow-lg" onclick="toggleService('service6')">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-gavel text-blue-600 text-2xl mr-4"></i>
+                        <h3 class="text-lg font-semibold">Appeal Representation</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Looking for help with an appeal? We can help you present your case in the most effective way.</p>
+                    <div class="service-content" id="service6">
+                        <div class="bg-blue-50 p-4 rounded mt-4">
+                            <p class="text-sm text-blue-800">Let our experts present your case with the clinical evidence that wins appeals. Professional representation that gets results.</p>
+                        </div>
+                    </div>
+                    <button class="text-blue-600 font-semibold mt-2">Learn More <i class="fas fa-chevron-down ml-1"></i></button>
+                </div>
+
+                <!-- Service Box 7 -->
+                <div class="service-box bg-white border rounded-lg p-6 shadow-lg" onclick="toggleService('service7')">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-history text-blue-600 text-2xl mr-4"></i>
+                        <h3 class="text-lg font-semibold">Retrospective Reclaims</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Paid thousands for care but never considered for CHC funding? We can help you recover wrongly paid fees.</p>
+                    <div class="service-content" id="service7">
+                        <div class="bg-blue-50 p-4 rounded mt-4">
+                            <p class="text-sm text-blue-800">Paid care fees you shouldn't have? We'll recover every penny from years of wrongful payments, going back decades if necessary.</p>
+                        </div>
+                    </div>
+                    <button class="text-blue-600 font-semibold mt-2">Learn More <i class="fas fa-chevron-down ml-1"></i></button>
+                </div>
+
+                <!-- Service Box 8 -->
+                <div class="service-box bg-white border rounded-lg p-6 shadow-lg" onclick="toggleService('service8')">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-calculator text-blue-600 text-2xl mr-4"></i>
+                        <h3 class="text-lg font-semibold">Restitution Calculation</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Awarded CHC but daunted by the reimbursement process? We can help ensure you get what you're entitled to.</p>
+                    <div class="service-content" id="service8">
+                        <div class="bg-blue-50 p-4 rounded mt-4">
+                            <p class="text-sm text-blue-800">Unsure what you're owed? Our precise calculations ensure you claim every pound you're entitled to, including interest and accommodation costs.</p>
+                        </div>
+                    </div>
+                    <button class="text-blue-600 font-semibold mt-2">Learn More <i class="fas fa-chevron-down ml-1"></i></button>
+                </div>
+
+                <!-- Service Box 9 -->
+                <div class="service-box bg-white border rounded-lg p-6 shadow-lg" onclick="toggleService('service9')">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-pound-sign text-blue-600 text-2xl mr-4"></i>
+                        <h3 class="text-lg font-semibold">Top-Up Fees</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Forced to "top-up" a CHC package? Speak to us about reclaiming these unlawful fees.</p>
+                    <div class="service-content" id="service9">
+                        <div class="bg-blue-50 p-4 rounded mt-4">
+                            <p class="text-sm text-blue-800">Paying illegal top-ups? We'll expose these unlawful charges and get your money back. CHC should cover 100% of eligible care costs.</p>
+                        </div>
+                    </div>
+                    <button class="text-blue-600 font-semibold mt-2">Learn More <i class="fas fa-chevron-down ml-1"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What is CHC Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Understanding NHS Continuing Healthcare</h2>
+                <p class="text-xl text-gray-600">CHC funding may cover 100% of your care fees - often called the NHS's "best kept secret"</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
+                <p class="text-lg text-gray-700 mb-6">Too many people entering the care system have no idea that their care fees could be paid in full by the NHS – yes, every penny! However, accessing this funding isn't straightforward and the NHS does not freely advertise its availability.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <div class="faq-item border rounded-lg">
+                            <button onclick="toggleFAQ('faq1')" class="w-full text-left p-4 font-semibold nhs-blue text-white rounded-t-lg">
+                                What is CHC? <i class="fas fa-chevron-down float-right"></i>
+                            </button>
+                            <div id="faq1" class="faq-content p-4 bg-blue-50">
+                                <p class="text-gray-700">CHC is a package of care, commissioned and funded solely by the NHS, which meets all assessed health and social care needs, including accommodation costs. It's available to anyone with a "Primary Health Need".</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item border rounded-lg">
+                            <button onclick="toggleFAQ('faq2')" class="w-full text-left p-4 font-semibold nhs-blue text-white rounded-t-lg">
+                                How do I get free care? <i class="fas fa-chevron-down float-right"></i>
+                            </button>
+                            <div id="faq2" class="faq-content p-4 bg-blue-50">
+                                <p class="text-gray-700">You need a "Primary Health Need" - when the majority of care required is focused on managing or preventing health conditions. This is assessed through the Checklist, then formal MDT assessment using the Decision Support Tool.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item border rounded-lg">
+                            <button onclick="toggleFAQ('faq3')" class="w-full text-left p-4 font-semibold nhs-blue text-white rounded-t-lg">
+                                Who is eligible for CHC funding? <i class="fas fa-chevron-down float-right"></i>
+                            </button>
+                            <div id="faq3" class="faq-content p-4 bg-blue-50">
+                                <p class="text-gray-700">Any adult aged 18+ with a Primary Health Need requiring care due to disability, accident or illness may be eligible. It's not about diagnosis - dementia or Parkinson's don't automatically qualify. It's about assessed care needs.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="faq-item border rounded-lg">
+                            <button onclick="toggleFAQ('faq4')" class="w-full text-left p-4 font-semibold nhs-blue text-white rounded-t-lg">
+                                Does my income matter? <i class="fas fa-chevron-down float-right"></i>
+                            </button>
+                            <div id="faq4" class="faq-content p-4 bg-blue-50">
+                                <p class="text-gray-700">Absolutely not! Money and financial status should never be a consideration. Once found eligible for CHC, the NHS must fund the full cost of meeting all health and social care needs regardless of your wealth.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item border rounded-lg">
+                            <button onclick="toggleFAQ('faq5')" class="w-full text-left p-4 font-semibold nhs-blue text-white rounded-t-lg">
+                                What is a Primary Health Need? <i class="fas fa-chevron-down float-right"></i>
+                            </button>
+                            <div id="faq5" class="faq-content p-4 bg-blue-50">
+                                <p class="text-gray-700">A Primary Health Need exists when the majority of care required focuses on managing or preventing health conditions (mental and physical). It's determined by assessing the nature, intensity, complexity and unpredictability of care needs.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item border rounded-lg">
+                            <button onclick="toggleFAQ('faq6')" class="w-full text-left p-4 font-semibold nhs-blue text-white rounded-t-lg">
+                                Who provides CHC funding? <i class="fas fa-chevron-down float-right"></i>
+                            </button>
+                            <div id="faq6" class="faq-content p-4 bg-blue-50">
+                                <p class="text-gray-700">CHC funding is paid by your local Integrated Care Board (ICB), which is the local arm of the NHS. Each ICB has a CHC budget to fund the care of eligible constituents in their area.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Calculate Your Potential Reclaim</h2>
+                <p class="text-xl text-gray-600">See how much you could reclaim from NHS Continuing Healthcare funding</p>
+            </div>
+
+            <div class="bg-gray-50 rounded-lg p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Weekly care cost (£)</label>
+                        <input type="range" id="weeklyFee" min="500" max="3000" value="1200" class="w-full" oninput="calculateReclaim()">
+                        <div class="text-center mt-2">
+                            <span id="weeklyFeeDisplay" class="text-2xl font-bold text-blue-600">£1,200</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Duration (years)</label>
+                        <input type="range" id="duration" min="1" max="10" value="5" class="w-full" oninput="calculateReclaim()">
+                        <div class="text-center mt-2">
+                            <span id="durationDisplay" class="text-2xl font-bold text-blue-600">5 years</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-8 p-6 bg-white rounded-lg shadow">
+                    <p class="text-lg text-gray-600 mb-2">Estimated reclaim amount:</p>
+                    <p id="estimatedReclaim" class="text-4xl font-bold text-green-600">£312,000</p>
+                    <button onclick="openAssessmentModal()" class="btn-primary px-8 py-3 rounded-lg font-semibold mt-4">
+                        Start Your Claim Today
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results That Matter -->
+    <section class="py-20 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Results That Matter</h2>
+                <p class="text-xl text-gray-600">Over 2,500 families helped • £47M+ reclaimed • 100% satisfaction guarantee</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+                    <div class="text-4xl font-bold text-green-600 mb-2">£156k</div>
+                    <p class="text-gray-600 mb-4">"We couldn't believe how much we were entitled to. Reditura fought for every penny and won."</p>
+                    <p class="text-sm font-semibold text-gray-800">- Margaret S., Devon</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+                    <div class="text-4xl font-bold text-green-600 mb-2">£97k</div>
+                    <p class="text-gray-600 mb-4">"Professional, knowledgeable team who understood the system inside out. Excellent service."</p>
+                    <p class="text-sm font-semibold text-gray-800">- James P., Manchester</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+                    <div class="text-4xl font-bold text-green-600 mb-2">£128k</div>
+                    <p class="text-gray-600 mb-4">"They explained everything clearly and got us the funding we deserved. Highly recommended."</p>
+                    <p class="text-sm font-semibold text-gray-800">- Sarah L., Birmingham</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 nhs-blue text-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-bold mb-4">Ready to Start Your CHC Journey?</h2>
+            <p class="text-xl mb-8">Get your free assessment today and discover if you're entitled to NHS funding</p>
+            <button onclick="openAssessmentModal()" class="btn-primary px-8 py-4 rounded-lg text-lg font-semibold">
+                Start Your Free Assessment Today
+            </button>
+            <p class="mt-4 text-sm opacity-90">No obligation • Expert advice • Results guaranteed</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="ornate-logo text-xl font-bold mb-4">REDITURA</div>
+                    <p class="text-gray-300">Leading experts in NHS Continuing Healthcare funding, bringing every penny home for families across the UK.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Services</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#" class="hover:text-white">Nurse Advice Line</a></li>
+                        <li><a href="#" class="hover:text-white">MDT Advocacy</a></li>
+                        <li><a href="#" class="hover:text-white">Appeal Support</a></li>
+                        <li><a href="#" class="hover:text-white">Retrospective Claims</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#" class="hover:text-white">CHC Guide</a></li>
+                        <li><a href="#" class="hover:text-white">Eligibility Checker</a></li>
+                        <li><a href="#" class="hover:text-white">Case Studies</a></li>
+                        <li><a href="#" class="hover:text-white">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Contact</h4>
+                    <div class="space-y-2 text-gray-300">
+                        <p><i class="fas fa-phone mr-2"></i> 0800 123 4567</p>
+                        <p><i class="fas fa-envelope mr-2"></i> info@reditura.com</p>
+                        <p><i class="fas fa-map-marker-alt mr-2"></i> London, UK</p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
+                <p>&copy; 2024 Reditura. All rights reserved. Specialist NHS Continuing Healthcare funding experts.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Assessment Modal -->
+    <div id="assessmentModal" class="modal">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">Free CHC Assessment</h3>
+                <button onclick="closeModal('assessmentModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form onsubmit="submitAssessment(event)">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                        <input type="text" required class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                        <input type="email" required class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
+                        <input type="tel" required class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Current Care Situation</label>
+                        <select class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                            <option>About to enter care</option>
+                            <option>Currently in care home</option>
+                            <option>Receiving care at home</option>
+                            <option>Recently declined CHC</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="w-full btn-primary py-3 rounded-lg font-semibold mt-6">
+                    Get My Free Assessment
+                </button>
+                <p class="text-xs text-gray-500 mt-2 text-center">We'll contact you within 24 hours with your assessment</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">Contact Us</h3>
+                <button onclick="closeModal('contactModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div class="flex items-center">
+                    <i class="fas fa-phone text-blue-600 text-xl mr-4"></i>
+                    <div>
+                        <p class="font-semibold">Call Us</p>
+                        <p class="text-gray-600">0800 123 4567</p>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-envelope text-blue-600 text-xl mr-4"></i>
+                    <div>
+                        <p class="font-semibold">Email Us</p>
+                        <p class="text-gray-600">info@reditura.com</p>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-clock text-blue-600 text-xl mr-4"></i>
+                    <div>
+                        <p class="font-semibold">Opening Hours</p>
+                        <p class="text-gray-600">Mon-Fri: 9am-6pm</p>
+                    </div>
+                </div>
+            </div>
+            <button onclick="openAssessmentModal(); closeModal('contactModal')" class="w-full btn-primary py-3 rounded-lg font-semibold mt-6">
+                Start Free Assessment
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Counter animation
+        function animateCounter() {
+            const counter = document.getElementById('monthlyCounter');
+            const target = 247832;
+            const increment = target / 100;
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                counter.textContent = '£' + Math.floor(current).toLocaleString();
+            }, 20);
+        }
+
+        // Service box toggle
+        function toggleService(serviceId) {
+            const content = document.getElementById(serviceId);
+            const allContents = document.querySelectorAll('.service-content');
+            
+            // Close all other service contents
+            allContents.forEach(el => {
+                if (el.id !== serviceId) {
+                    el.classList.remove('active');
+                }
+            });
+            
+            // Toggle current service
+            content.classList.toggle('active');
+        }
+
+        // FAQ toggle
+        function toggleFAQ(faqId) {
+            const content = document.getElementById(faqId);
+            content.classList.toggle('active');
+        }
+
+        // Calculator
+        function calculateReclaim() {
+            const weeklyFee = document.getElementById('weeklyFee').value;
+            const duration = document.getElementById('duration').value;
+            
+            document.getElementById('weeklyFeeDisplay').textContent = '£' + parseInt(weeklyFee).toLocaleString();
+            document.getElementById('durationDisplay').textContent = duration + ' years';
+            
+            const total = weeklyFee * 52 * duration;
+            document.getElementById('estimatedReclaim').textContent = '£' + parseInt(total).toLocaleString();
+        }
+
+        // Modal functions
+        function openAssessmentModal() {
+            document.getElementById('assessmentModal').classList.add('active');
+        }
+
+        function openContactModal() {
+            document.getElementById('contactModal').classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function submitAssessment(event) {
+            event.preventDefault();
+            alert('Thank you! We\'ll contact you within 24 hours with your free CHC assessment.');
+            closeModal('assessmentModal');
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            animateCounter();
+            calculateReclaim();
+        });
+
+        // Close modals when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
+    <script id="html_badge_script1">
+        window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDqzb%2F%2Bef5I5vcfmFRbR9j9DOLTdx7K%2FWlolV%2BpIn0IJ5qeYv7rFLdhezI4%2B%2Bu9vRGMdamuRQ1y3SZxGOxDdAR3Z07TIPVz9noMqL0tRILro5XeUTVaTjq9N4UGh2wpKIiuslGGuYSUP5VIXb0%2BsM1FpQos9H4kWE7rdwvzpQ0rBd7RSCO64w62c87Qh%2B%2F90mZhjYJg5P%2BgAN%2B3GtiAhjZe7wkPvWgTnlmGRwwJCTZ0JsvHhzYlDG%2FF0%2BN8q5IGE6W1X6Rs1sbsJCuRb788GfIqu3fLW1%2BnD4F%2BxmtmAVPsGXpJzImSiq7PQnIrEKi9DUZ2PfNl%2BvWiKi3WcsnfDZZnrYGa17aqgrgyqhtoX9Purw6YqVjC%2B2UheqnTq%2B%2FAGlnschMqTNXsTxg05v6UdfOrJ%2B1A1UAU0O89JWuXYqFtPqlUpNf%2B2dhUTn4LIttiajleKbPZY5LyXdmBxG%2Fx%2F3LMZweyI1kT8YaLOpa1FvIUCFfl6s35lN3Cz845Lsx1wNiX1StkjrtOmfjZbLM8rct1w%3D";
+        window.__genspark_locale = "en-US";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDqzb/+ef5I5vcfmFRbR9j9DOLTdx7K/WlolV+pIn0IJ5qeYv7rFLdhezI4++u9vRGMdamuRQ1y3SZxGOxDdAR3Z07TIPVz9noMqL0tRILro5XeUTVaTjq9N4UGh2wpKIiuslGGuYSUP5VIXb0+sM1FpQos9H4kWE7rdwvzpQ0rBd7RSCO64w62c87Qh+/90mZhjYJg5P+gAN+3GtiAhjZe7wkPvWgTnlmGRwwJCTZ0JsvHhzYlDG/F0+N8q5IGE6W1X6Rs1sbsJCuRb788GfIqu3fLW1+nD4F+xmtmAVPsGXpJzImSiq7PQnIrEKi9DUZ2PfNl+vWiKi3WcsnfDZZnrYGa17aqgrgyqhtoX9Purw6YqVjC+2UheqnTq+/AGlnschMqTNXsTxg05v6UdfOrJ+1A1UAU0O89JWuXYqFtPqlUpNf+2dhUTn4LIttiajleKbPZY5LyXdmBxG/x/3LMZweyI1kT8YaLOpa1FvIUCFfl6s35lN3Cz845Lsx1wNiX1StkjrtOmfjZbLM8rct1w=";
+    </script>
+    
+    <script id="html_notice_dialog_script" src="https://www.genspark.ai/notice_dialog.js"></script>
+    
